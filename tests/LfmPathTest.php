@@ -5,9 +5,9 @@ namespace Tests;
 use Illuminate\Http\Request;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
-use UniSharp\LaravelFilemanager\Lfm;
-use UniSharp\LaravelFilemanager\LfmItem;
-use UniSharp\LaravelFilemanager\LfmPath;
+use XisoDev\LaravelFilemanager\Lfm;
+use XisoDev\LaravelFilemanager\LfmItem;
+use XisoDev\LaravelFilemanager\LfmPath;
 
 class LfmPathTest extends TestCase
 {

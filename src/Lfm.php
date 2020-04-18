@@ -1,13 +1,13 @@
 <?php
 
-namespace UniSharp\LaravelFilemanager;
+namespace XisoDev\LaravelFilemanager;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use UniSharp\LaravelFilemanager\Middlewares\CreateDefaultFolder;
-use UniSharp\LaravelFilemanager\Middlewares\MultiUser;
+use XisoDev\LaravelFilemanager\Middlewares\CreateDefaultFolder;
+use XisoDev\LaravelFilemanager\Middlewares\MultiUser;
 
 class Lfm
 {
@@ -238,8 +238,8 @@ class Lfm
     public static function routes()
     {
         $middleware = [ CreateDefaultFolder::class, MultiUser::class ];
-        $as = 'unisharp.lfm.';
-        $namespace = '\\UniSharp\\LaravelFilemanager\\Controllers\\';
+        $as = 'xisodev.lfm.';
+        $namespace = '\\XisoDev\\LaravelFilemanager\\Controllers\\';
 
         Route::group(compact('middleware', 'as', 'namespace'), function () {
 

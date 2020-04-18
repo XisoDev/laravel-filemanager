@@ -1,6 +1,6 @@
 {
-  "name": "unisharp/laravel-filemanager",
-  "description": "A file upload/editor intended for use with Laravel 5 to 6 and CKEditor / TinyMCE",
+  "name": "xisodev/laravel-filemanager",
+  "description": "파일을 업로드하거나 이미지를 편집할 수 있는 파일관리자 (UniSharp/Laravel-filemanager 를 Fork 하였습니다.) 입니다.",
   "license": "MIT",
   "keywords": [
     "filemanager",
@@ -13,6 +13,10 @@
     "image"
   ],
   "authors": [
+    {
+      "name": "xiso",
+      "email": "xiso@amuz.co.kr"
+    },
     {
       "name": "Trevor Sawler",
       "email": "trevor.sawler@gmail.com"
@@ -44,7 +48,7 @@
   },
   "autoload": {
     "psr-4": {
-      "UniSharp\\LaravelFilemanager\\": "src/"
+      "XisoDev\\LaravelFilemanager\\": "src/"
     }
   },
   "autoload-dev": {
@@ -55,7 +59,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "UniSharp\\LaravelFilemanager\\LaravelFilemanagerServiceProvider"
+        "XisoDev\\LaravelFilemanager\\LaravelFilemanagerServiceProvider"
       ],
       "aliases": {
       }

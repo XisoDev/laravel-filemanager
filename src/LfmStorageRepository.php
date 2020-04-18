@@ -1,6 +1,6 @@
 <?php
 
-namespace UniSharp\LaravelFilemanager;
+namespace XisoDev\LaravelFilemanager;
 
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Cached\CachedAdapter;
