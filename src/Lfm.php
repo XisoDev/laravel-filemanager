@@ -69,7 +69,7 @@ class Lfm
         }
 
         if (class_exists($config)) {
-            return app()->make($config)->FolderName();
+            return app()->make($config)->FolderName($type);
         }
 
         return $config;

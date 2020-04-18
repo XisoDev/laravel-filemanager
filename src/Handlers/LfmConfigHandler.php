@@ -21,7 +21,7 @@ class LfmConfigHandler extends \XisoDev\LaravelFilemanager\Handlers\ConfigHandle
 
     public function FolderName($file_type = 'file')
     {
-        return parent::FolderName($file_type);
+        return self::getBasePath(parent::FolderName($file_type));
     }
 
     public function StartView($file_type = 'file')
@@ -32,5 +32,9 @@ class LfmConfigHandler extends \XisoDev\LaravelFilemanager\Handlers\ConfigHandle
     public function MaxSize($file_type = 'file')
     {
         return parent::MaxSize($file_type);
+    }
+
+    private function getBasePath($directory = 'file'){
+        return "amuzcms/" . $directory;
     }
 }
