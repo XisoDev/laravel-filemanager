@@ -62,7 +62,17 @@ class Lfm
     {
         $type = $this->currentLfmType();
 
-        return $this->config->get('lfm.folder_categories.' . $type . '.folder_name', 'files');
+        $config = $this->config->get('lfm.folder_categories.' . $type . '.folder_name', 'files');
+
+        if (is_callable($config)) {
+            return call_user_func($config);
+        }
+
+        if (class_exists($config)) {
+            return app()->make($config)->FolderName();
+        }
+
+        return $config;
     }
 
     /**
@@ -87,7 +97,15 @@ class Lfm
     public function getDisplayMode()
     {
         $type_key = $this->currentLfmType();
+
+
         $startup_view = $this->config->get('lfm.folder_categories.' . $type_key . '.startup_view');
+        if (is_callable($startup_view)) {
+            $startup_view = call_user_func($startup_view);
+        }
+        if (class_exists($startup_view)) {
+            $startup_view = app()->make($startup_view)->StartView();
+        }
 
         $view_type = 'grid';
         $target_display_type = $this->input('show_list') ?: $startup_view;
@@ -113,6 +131,20 @@ class Lfm
 
         return empty(auth()->user()) ? '' : auth()->user()->$config;
     }
+    public function getSharedFolder()
+    {
+        $config = $this->config->get('lfm.shared_folder_name');
+
+        if (is_callable($config)) {
+            return call_user_func($config);
+        }
+
+        if (class_exists($config)) {
+            return app()->make($config)->SharedFolderName();
+        }
+
+        return $config;
+    }
 
     public function getRootFolder($type = null)
     {
@@ -126,7 +158,7 @@ class Lfm
         if ($type === 'user') {
             $folder = $this->getUserSlug();
         } else {
-            $folder = $this->config->get('lfm.shared_folder_name');
+            $folder = $this->getSharedFolder();
         }
 
         // the slash is for url, dont replace it with directory seperator
@@ -150,7 +182,17 @@ class Lfm
 
     public function maxUploadSize()
     {
-        return $this->config->get('lfm.folder_categories.' . $this->currentLfmType() . '.max_size');
+        $config = $this->config->get('lfm.folder_categories.' . $this->currentLfmType() . '.max_size');
+
+        if (is_callable($config)) {
+            return call_user_func($config);
+        }
+
+        if (class_exists($config)) {
+            return app()->make($config)->MaxSize();
+        }
+
+        return $config;
     }
 
     /**
@@ -175,7 +217,17 @@ class Lfm
             return true;
         }
 
-        return $this->config->get('lfm.allow_shared_folder') === true;
+        $config = $this->config->get('lfm.allow_shared_folder');
+
+        if (is_callable($config)) {
+            return call_user_func($config);
+        }
+
+        if (class_exists($config)) {
+            return app()->make($config)->AllowSharedFolder();
+        }
+
+        return $config === true;
     }
 
     /**

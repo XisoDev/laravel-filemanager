@@ -1,17 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Documentation for this config :
-|--------------------------------------------------------------------------
-| online  => http://unisharp.github.io/laravel-filemanager/config
-| offline => vendor/xisodev/laravel-filemanager/docs/config.md
- */
 
 return [
     /*
     |--------------------------------------------------------------------------
-    | Routing
+    | Routing - 기본라우팅
     |--------------------------------------------------------------------------
      */
 
@@ -19,37 +12,43 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Shared folder / Private folder
+    | 공유폴더 및 개인폴더 - 둘 다 비활성화 하면 공유폴더는 자동으로 활성화됩니다.
     |--------------------------------------------------------------------------
-    |
-    | If both options are set to false, then shared folder will be activated.
-    |
      */
 
     'allow_private_folder'     => true,
 
-    // Flexible way to customize client folders accessibility
-    // If you want to customize client folders, publish tag="lfm_handler"
-    // Then you can rewrite userField function in App\Handler\ConfigHandler class
-    // And set 'user_field' to App\Handler\ConfigHandler::class
-    // Ex: The private folder of user will be named as the user id.
+    /*
+     * 클라이언트 단에서 설정들을 사용자 정의할 수 있습니다.
+     * 아래 설정들을 string 유형으로 변경하거나, 클래스로 대체하여 사용할 수 있습니다.
+     * 상황에따라 유동적으로 활용하기 위해서는 반드시 클래스를 사용해야 합니다. 아래 artisan 명령어를 통해 설정 핸들러를 카피합니다.
+     * php artisan vendor:publish --tag=lfm_handler
+     * 그런 다음, 카피된 핸들러의 네임스페이스로 아래 값을 변경합니다.
+     */
+
+    //userField() 함수를 생성합니다.
     'private_folder_name'      => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
 
-    'allow_shared_folder'      => true,
+    //AllowSharedFolder() 함수를 생성합니다.
+    'allow_shared_folder'      => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
 
-    'shared_folder_name'       => 'shares',
+    //SharedFolderName() 함수를 생성합니다.
+    'shared_folder_name'       => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
 
     /*
     |--------------------------------------------------------------------------
-    | Folder Names
+    | 유형별 폴더명을 정의합니다.
     |--------------------------------------------------------------------------
      */
 
     'folder_categories'        => [
         'file'  => [
-            'folder_name'  => 'files',
-            'startup_view' => 'grid',
-            'max_size'     => 50000, // size in KB
+            //FolderName($file_type = 'file')
+            'folder_name'  => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
+            //StartView($file_type = 'file')
+            'startup_view' => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
+            //MaxSize($file_type = 'image')
+            'max_size'     => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class, // size in KB
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',
@@ -59,9 +58,12 @@ return [
             ],
         ],
         'image' => [
-            'folder_name'  => 'photos',
-            'startup_view' => 'list',
-            'max_size'     => 50000, // size in KB
+            //FolderName($file_type = 'image')
+            'folder_name'  => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
+            //StartView($file_type = 'image')
+            'startup_view' => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class,
+            //MaxSize($file_type = 'image')
+            'max_size'     => XisoDev\LaravelFilemanager\Handlers\ConfigHandler::class, // size in KB
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',
@@ -79,36 +81,28 @@ return [
     | Upload / Validation
     |--------------------------------------------------------------------------
      */
-
     'disk'                     => 'public',
 
     'rename_file'              => false,
-
     'alphanumeric_filename'    => false,
-
     'alphanumeric_directory'   => false,
-
     'should_validate_size'     => false,
-
     'should_validate_mime'     => false,
 
-    // behavior on files with identical name
-    // setting it to true cause old file replace with new one
-    // setting it to false show `error-file-exist` error and stop upload
+    // 파일명이 같은경우 덮어쓰기할 수 있습니다.
     'over_write_on_duplicate'  => false,
 
     /*
     |--------------------------------------------------------------------------
-    | Thumbnail
+    | 썸네일 (미리보기 이미지)
     |--------------------------------------------------------------------------
      */
 
-    // If true, image thumbnails would be created during upload
+    // 활성화 된 경우, 업로드되는동안 이미지의 썸네일을 자동 생성합니다.
     'should_create_thumbnails' => true,
-
     'thumb_folder_name'        => 'thumbs',
 
-    // Create thumbnails automatically only for listed types.
+    // 리스트 유형에 사용할 썸네일 MIME타입을 정의합니다..
     'raster_mimetypes'         => [
         'image/jpeg',
         'image/pjpeg',
@@ -116,12 +110,11 @@ return [
     ],
 
     'thumb_img_width'          => 200, // px
-
     'thumb_img_height'         => 200, // px
 
     /*
     |--------------------------------------------------------------------------
-    | File Extension Information
+    | 확장자별 파일 유형을 정의합니다.
     |--------------------------------------------------------------------------
      */
 
@@ -144,12 +137,9 @@ return [
     |--------------------------------------------------------------------------
     | php.ini override
     |--------------------------------------------------------------------------
-    |
-    | These values override your php.ini settings before uploading files
-    | Set these to false to ingnore and apply your php.ini settings
-    |
-    | Please note that the 'upload_max_filesize' & 'post_max_size'
-    | directives are not supported.
+    | 파일이 업로드 하기 전, php.ini 설정보다 우선하여 오버라이드 합니다.
+    | 원하지 않는 경우 false 로 변경할 수 있습니다.
+    | 'upload_max_filesize' & 'post_max_size' 설정은 지원되지 않습니다.
      */
     'php_ini_overrides'        => [
         'memory_limit' => '256M',
